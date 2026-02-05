@@ -17,7 +17,5 @@ This project demonstrates how to incrementally add AI capabilities to a traditio
 
   ## Roadmap
   - Week 1: Achitecture & Planning
-  - Week 2: Ticket CRUD
-  - Week 3: AI summarization
-  - Week 4: AI classification
-  - Week 5+: RAG, caching, streaming
+  - Week 2: Backend Ticket CRUD
+  - Week 3: AI Backend Integration
