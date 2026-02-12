@@ -19,6 +19,7 @@ public class Ticket {
   private String title;
 
   @Column(length = 2000)
+  private String aiSummary;
   private String description;
 
   private String priority;
