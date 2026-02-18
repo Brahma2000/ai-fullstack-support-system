@@ -1,6 +1,7 @@
 package com.example.support.service;
 
 import com.example.support.ai.AiService;
+import com.example.support.aiTicketResponse;
 import com.example.support.model.Ticket;
 import com.example.support.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,17 +20,17 @@ public class TicketService {
     ticket.setStatus("OPEN");
     ticket.setCreatedAt(LocalDateTime.now());
 
-    String summary = aiService.summarizeTicket(ticket.getTitle(), ticket.getDescription());
-
-    if (summary != null) {
-      ticket.setAiSummary(summary);
+    AiTicketResponse aiResponse = aiService.analyzeTicket(ticket.getTitle(), ticket.getDescription());
+    if (aiResponse != null) {
+      ticket.setAiSummary(aiResponse.getSummary());
+      ticket.setAiPriority(aiResponse.getPriority());
     }
     return ticketRepository.save(ticket);
   }
   public List<Ticket> getAllTickets() {
     return ticketRepository.findAll();
   }
-  public Ticket getTicketById(Long id) {
-    return ticketRepository.findById(id).orElseThrow(() -> new RunTimeException("Ticket not found"));
+  public Ticket getTicketByID(Long id) {
+    return ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket not found"));
   }
 }
