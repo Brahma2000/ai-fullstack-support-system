@@ -11,18 +11,22 @@ import java.time.LacalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "tickets")
 public class Ticket {
   @Id
   @GenerateValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  
+
+  @Column(nullable = false)
   private String title;
+
+  @Column(nullable = false, length = 3000)
+  private String description;
+  private String status;
+
+  private LocalDateTime createdAt;
 
   @Column(length = 2000)
   private String aiSummary;
-  private String description;
-
-  private String priority;
-
-  private LocalDateTime createdAt;
+  private String aiPriority;
 }
