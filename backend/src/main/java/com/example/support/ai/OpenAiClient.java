@@ -8,7 +8,9 @@ import org.springframework.sterotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Component
@@ -21,7 +23,7 @@ public class OpenAiClient {
   public OpenAiClient(RestTemplateBuilder builder) {
     this.restTemplate = builder
       .setConnectTimeout(Duration.ofSeconds(5))
-      .setReadTimeout(Duration.ofSeconds(10))
+      .setReadTimeout(Duration.ofSeconds(15))
       .build();
   }
   
@@ -42,18 +44,33 @@ public class OpenAiClient {
     request.put("messages", List.of(message));
     request.put("temperature", 0);
 
-    try {
-      HttpEntity<Map<String, Object>> entity = 
+    HttpEntity<Map<String, Object>> entity = 
         new HttpEntity<>(request, headers);
 
+    try {
       ResponseEntity<Map> response =
         restTemplate.postForEntity(url, entity, Map.class);
+      if (response.getBody() == null) {
+        log.error("OpenAI response body is null");
+        return null;
+      }
 
-      Map choice = (Map)((List)response.getBody().get("choices")).get(0);
-      Map msg = (Map)choice.get("message");
+      List choices = (List) response.getBody().get("choices");
+      if (choices == null || choices.isEmpty()) {
+        log.error("OpenAI response has no choices");
+        return null;
+      }
 
+      Map choice = (Map) choices.get(0);
+      Map msg = (Map) choice.get("message");
+      if (msg == null || msg.get("content") == null) {
+        log.error("OpenAI message content is null");
+        return null;
+      }
       return msg.get("content").toString();
     } catch (Exception ex) {
       log.error("AI call failed", ex);
       return null;
     }
+  }
+}
