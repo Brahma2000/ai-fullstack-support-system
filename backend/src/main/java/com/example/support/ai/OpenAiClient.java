@@ -25,7 +25,7 @@ public class OpenAiClient {
       .build();
   }
   
-  public String summarize(String prompt) {
+  public String getStructuredResponse(String prompt) {
     String url = "https://api.openai.com/v1/chat/completions";
 
     HttpHeaders headers = new HttpHeaders();
@@ -40,6 +40,7 @@ public class OpenAiClient {
     Map<String, Object> request = new HashMap<>();
     request.put("model", "gpt-3.5-turbo");
     request.put("messages", List.of(message));
+    request.put("temperature", 0);
 
     try {
       HttpEntity<Map<String, Object>> entity = 
