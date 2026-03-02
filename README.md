@@ -19,3 +19,4 @@ This project demonstrates how to incrementally add AI capabilities to a traditio
   - Week 1: Achitecture & Planning
   - Week 2: Backend Ticket CRUD
   - Week 3: AI Backend Integration
+  - Week 4: Prompt Engineering & Structured Output
