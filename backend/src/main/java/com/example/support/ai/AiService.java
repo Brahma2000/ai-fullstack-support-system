@@ -1,4 +1,4 @@
-package com.example.support.ai;
+/* package com.example.support.ai;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +40,29 @@ public class AiService {
 
   private boolean isValidPriority(String priority) {
     return priority.equalsIgnoreCase("LOW") || priority.equalsIgnoreCase("MEDIUM") || priority.equalsIgnoreCase("HIGH");
+  }
+}  */
+
+package com.example.support.ai;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AiService {
+  public AiTicketResponse analyzeTicket(String title, String description) {
+    // === MOCK RESPONSE FOR TESTING ===
+    AiTicketResponse response = new AiTicketResponse();
+    response.setSummary(
+      "User facing login-related issue. Requires authentication check."
+    );
+    // Simple logic to simulate AI behaviour
+    if (description != null && description.toLowerCase().contains("error")) {
+      response.setPriority("HIGH");
+    } else {
+      response.setPriority("MEDIUM");
+    }
+    return response;
   }
 }

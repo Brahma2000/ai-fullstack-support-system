@@ -1,7 +1,7 @@
 package com.example.support.service;
 
 import com.example.support.ai.AiService;
-import com.example.support.aiTicketResponse;
+import com.example.support.ai.AiTicketResponse;
 import com.example.support.model.Ticket;
 import com.example.support.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class TicketService {
   public List<Ticket> getAllTickets() {
     return ticketRepository.findAll();
   }
-  public Ticket getTicketByID(Long id) {
+  public Ticket getTicketById(Long id) {
     return ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket not found"));
   }
 }

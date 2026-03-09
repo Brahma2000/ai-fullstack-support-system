@@ -3,18 +3,19 @@ package com.example.support.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LacalDateTime;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "tickets")
 public class Ticket {
   @Id
-  @GenerateValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(nullable = false)

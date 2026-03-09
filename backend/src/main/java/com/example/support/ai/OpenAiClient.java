@@ -1,4 +1,4 @@
-package com.example.support.ai;
+/* package com.example.support.ai;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.beans.factory.annotation.Value;
@@ -74,3 +74,4 @@ public class OpenAiClient {
     }
   }
 }
+*/

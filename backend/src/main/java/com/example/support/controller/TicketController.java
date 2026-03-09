@@ -20,11 +20,11 @@ public class TicketController {
   }
 
   @GetMapping
-  Public List<Ticket> getAllTickets() {
+  public List<Ticket> getAllTickets() {
     return ticketService.getAllTickets();
   }
 
-  @GetMapping
+  @GetMapping("/{id}")
   public Ticket getTicket(@PathVariable Long id) {
     return ticketService.getTicketById(id);
   }
