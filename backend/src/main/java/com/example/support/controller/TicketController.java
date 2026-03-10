@@ -4,6 +4,8 @@ import com.example.support.model.Ticket;
 import com.example.support.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -15,8 +17,8 @@ public class TicketController {
   private final TicketService ticketService;
 
   @PostMapping
-  public Ticket createTicket(@RequestBody Ticket ticket) {
-    return ticketService.createTicket(ticket);
+  public ResponseEntity<Ticket> createTicket(@Valid @RequestBody Ticket ticket) {
+    return ResponseEntity.ok(ticketService.createTicket(ticket));
   }
 
   @GetMapping

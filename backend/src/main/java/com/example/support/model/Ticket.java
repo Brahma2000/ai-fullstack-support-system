@@ -2,6 +2,12 @@ package com.example.support.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.Data;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
@@ -19,9 +25,13 @@ public class Ticket {
   private Long id;
 
   @Column(nullable = false)
+  @NotBlank(message = "Title cannot be empty")
+  @Size(max = 100)
   private String title;
 
-  @Column(nullable = false, length = 3000)
+  @Column(nullable = false, length = 500)
+  @NotBlank(message = "Description cannot be empty")
+  @Size(max = 500)
   private String description;
   private String status;
 
@@ -30,4 +40,5 @@ public class Ticket {
   @Column(length = 2000)
   private String aiSummary;
   private String aiPriority;
+
 }

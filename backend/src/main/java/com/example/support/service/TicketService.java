@@ -6,6 +6,9 @@ import com.example.support.model.Ticket;
 import com.example.support.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import com.example.support.monitoring.AIUsageMonitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,20 +19,32 @@ public class TicketService {
 
   private final TicketRepository ticketRepository;
   private final AiService aiService;
+  private final AIUsageMonitor usageMonitor;
+  private static final Logger logger = LoggerFactory.getLogger(TicketService.class);
+
   public Ticket createTicket(Ticket ticket) {
     ticket.setStatus("OPEN");
     ticket.setCreatedAt(LocalDateTime.now());
+    usageMonitor.incrementUsage();
+    logger.info("AI request count: {}", usageMonitor.getUsage());
+
+    if (usageMonitor.isLimitExceeded()) {
+      logger.warn("AI usage limit exceeded!");
+    }
 
     AiTicketResponse aiResponse = aiService.analyzeTicket(ticket.getTitle(), ticket.getDescription());
     if (aiResponse != null) {
       ticket.setAiSummary(aiResponse.getSummary());
       ticket.setAiPriority(aiResponse.getPriority());
     }
+
     return ticketRepository.save(ticket);
   }
+
   public List<Ticket> getAllTickets() {
     return ticketRepository.findAll();
   }
+
   public Ticket getTicketById(Long id) {
     return ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket not found"));
   }
