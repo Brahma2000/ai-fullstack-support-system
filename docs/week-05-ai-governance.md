@@ -1,3 +1,6 @@
+# Week 5 - Validation, Monitoring & AI Usage Control
+Enhance the backend system by implementing request validation, global exception handling, AI usage monitoring and usage limits.
+
 ### Features added
 
 - Request validation
