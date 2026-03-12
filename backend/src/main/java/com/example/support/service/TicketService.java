@@ -30,6 +30,7 @@ public class TicketService {
 
     if (usageMonitor.isLimitExceeded()) {
       logger.warn("AI usage limit exceeded!");
+      throw new RuntimeException("AI usage limit exceeded. Request blocked.");
     }
 
     AiTicketResponse aiResponse = aiService.analyzeTicket(ticket.getTitle(), ticket.getDescription());
