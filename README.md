@@ -24,4 +24,5 @@ This project demonstrates how to incrementally add AI capabilities to a traditio
   - Week 4: Prompt Engineering & Structured Output
   - Week 5: Monitoring and usage limits
   - Week 6: Swagger API Documentation
+  - Week 7: React Frontend
 
