@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.example.support.monitoring.AIUsageMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,16 +25,18 @@ public class TicketService {
   private static final Logger logger = LoggerFactory.getLogger(TicketService.class);
 
   public Ticket createTicket(Ticket ticket) {
-    ticket.setStatus("OPEN");
-    ticket.setCreatedAt(LocalDateTime.now());
-    usageMonitor.incrementUsage();
-    logger.info("AI request count: {}", usageMonitor.getUsage());
 
     if (usageMonitor.isLimitExceeded()) {
       logger.warn("AI usage limit exceeded!");
-      throw new RuntimeException("AI usage limit exceeded. Request blocked.");
+      throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "AI usage limit exceeded. Request blocked.");
     }
 
+    usageMonitor.incrementUsage();
+    logger.info("AI request count: {}", usageMonitor.getUsage());
+
+    ticket.setStatus("OPEN");
+    ticket.setCreatedAt(LocalDateTime.now());
+    
     AiTicketResponse aiResponse = aiService.analyzeTicket(ticket.getTitle(), ticket.getDescription());
     if (aiResponse != null) {
       ticket.setAiSummary(aiResponse.getSummary());

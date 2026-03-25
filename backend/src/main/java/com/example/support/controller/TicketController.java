@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/tickets")
+@CrossOrigin(origins ="http://localhost:3000")
 @RequiredArgsConstructor
 public class TicketController {
 
